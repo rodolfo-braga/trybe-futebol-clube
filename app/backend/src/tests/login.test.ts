@@ -7,6 +7,7 @@ import User from '../database/models/User';
 
 import { Response } from 'superagent';
 import { IUser } from '../interfaces/User';
+import ErrorMessage from '../enums/ErrorMessage';
 
 chai.use(chaiHttp);
 
@@ -57,6 +58,30 @@ describe('Testando a rota /login', () => {
 
     it('após o acesso, redireciona o usuário para a tela de jogos', () => {
       expect(chaiHttpResponse).to.redirectTo('http://localhost:3000/matchs');
+    })
+  })
+
+  describe('Ao receber um email inválido no frontend', () => {
+    let chaiHttpResponse: Response;
+    const invalidEmail: string = 'invalid@email';
+
+    before(async () => {            
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send(invalidEmail)
+    });
+
+    it('retorna um erro com o status 401', () => {
+      expect(chaiHttpResponse).to.have.status(401);
+    })
+
+    it('o corpo da resposta é um objeto com a propriedade "message"', () => {
+      expect(chaiHttpResponse.body).to.have.key('message');
+    })
+
+    it('a mensagem de erro é "Incorrect email or password"', () => {
+      expect(chaiHttpResponse.body.message).to.equal(ErrorMessage.INVALID_INPUT);
     })
   })
 });
