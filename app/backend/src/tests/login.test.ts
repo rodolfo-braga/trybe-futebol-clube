@@ -63,13 +63,45 @@ describe('Testando a rota /login', () => {
 
   describe('Ao receber um email inválido no frontend', () => {
     let chaiHttpResponse: Response;
-    const invalidEmail: string = 'invalid@email';
+    const invalidEmail = 'invalid@email';
+    const invalidLoginInfo = {
+      email: invalidEmail,
+      password: 'secret_admin',
+    }
 
     before(async () => {            
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
-        .send(invalidEmail)
+        .send(invalidLoginInfo)
+    });
+
+    it('retorna um erro com o status 401', () => {
+      expect(chaiHttpResponse).to.have.status(401);
+    })
+
+    it('o corpo da resposta é um objeto com a propriedade "message"', () => {
+      expect(chaiHttpResponse.body).to.have.key('message');
+    })
+
+    it('a mensagem de erro é "Incorrect email or password"', () => {
+      expect(chaiHttpResponse.body.message).to.equal(ErrorMessage.INVALID_INPUT);
+    })
+  })
+
+  describe('Ao receber uma senha inválida no frontend', () => {
+    let chaiHttpResponse: Response;
+    const invalidPassword = 'pw';
+    const invalidLoginInfo = {
+      email: 'admin@admin.com',
+      password: invalidPassword,
+    }
+
+    before(async () => {            
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send(invalidLoginInfo)
     });
 
     it('retorna um erro com o status 401', () => {
