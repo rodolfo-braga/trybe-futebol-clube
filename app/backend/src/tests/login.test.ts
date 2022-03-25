@@ -142,4 +142,30 @@ describe('Testando a rota /login', () => {
       expect(chaiHttpResponse.body.message).to.equal(ErrorMessage.EMPTY_FIELDS);
     })
   })
+
+  describe('Ao receber um login sem o campo "password"', () => {
+    let chaiHttpResponse: Response;
+    const loginWithoutPassword = {
+      email: 'admin@admin.com',
+    }
+
+    before(async () => {            
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send(loginWithoutPassword)
+    });
+
+    it('retorna um erro com o status 401', () => {
+      expect(chaiHttpResponse).to.have.status(401);
+    })
+
+    it('o corpo da resposta é um objeto com a propriedade "message"', () => {
+      expect(chaiHttpResponse.body).to.have.key('message');
+    })
+
+    it('a mensagem de erro é "All fields must be filled"', () => {
+      expect(chaiHttpResponse.body.message).to.equal(ErrorMessage.EMPTY_FIELDS);
+    })
+  })
 });
