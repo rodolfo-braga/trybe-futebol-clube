@@ -1,4 +1,4 @@
-import { JwtPayload, Secret, sign, SignOptions } from 'jsonwebtoken';
+import { JwtPayload, Secret, sign, SignOptions, verify } from 'jsonwebtoken';
 import { readFileSync } from 'fs';
 
 const jwtSecret: Secret = readFileSync('./jwt.evaluation.key', 'utf-8');
@@ -15,5 +15,11 @@ export default class JwtHandler {
     const token: string = sign({ data }, jwtSecret, jwtConfig);
 
     return token;
+  }
+
+  static verify(token: string) {
+    const decoded: JwtPayload = verify(token, jwtSecret) as JwtPayload;
+
+    return decoded.data.email;
   }
 }
