@@ -25,4 +25,19 @@ export default class UserService {
       email: user.email,
     } as IUser;
   }
+
+  static async getByEmail(email: string): Promise<IUser> {
+    const user = await User.findOne(
+      { where: { email }, raw: true },
+    );
+
+    if (!user) throw new Error(ErrorMessage.INVALID_INPUT);
+
+    return {
+      id: user.id,
+      username: user.username,
+      role: user.role,
+      email: user.email,
+    } as IUser;
+  }
 }
