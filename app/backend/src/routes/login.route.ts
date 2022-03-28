@@ -19,4 +19,14 @@ loginRoute.post(
   },
 );
 
+loginRoute.get('/validate', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const token = req.headers.authorization;
+    const userRole = await UserController.validate(token);
+    return res.status(StatusCode.OK).json(userRole);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default loginRoute;
