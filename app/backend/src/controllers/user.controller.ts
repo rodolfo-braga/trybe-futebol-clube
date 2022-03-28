@@ -8,4 +8,11 @@ export default class UserController {
     const token = JwtHandler.generate(email);
     return { user, token } as LoginSuccess;
   }
+
+  static async validate(token: string | undefined): Promise<string> {
+    if (!token) throw new Error('Token not found');
+    const email = JwtHandler.verify(token);
+    const user = await UserService.getByEmail(email);
+    return user.role;
+  }
 }
