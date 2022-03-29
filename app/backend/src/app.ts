@@ -2,6 +2,7 @@ import * as express from 'express';
 import errorHandler from './middlewares/error';
 import clubsRoute from './routes/clubs.route';
 import loginRoute from './routes/login.route';
+import matchsRoute from './routes/matchs.route';
 
 class App {
   public app: express.Express;
@@ -25,6 +26,7 @@ class App {
     this.app.use(express.json());
     this.app.use('/login', loginRoute);
     this.app.use('/clubs', clubsRoute);
+    this.app.use('/matchs', matchsRoute);
     this.app.use(errorHandler);
   }
 
