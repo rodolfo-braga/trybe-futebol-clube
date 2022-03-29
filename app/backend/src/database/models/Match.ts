@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
-// import OtherModel from './OtherModel';
 
 class Match extends Model {
   public id: number;
@@ -13,7 +12,7 @@ class Match extends Model {
 
   public awayTeamGoals: number;
 
-  public inProgress: string;
+  public inProgress: boolean;
 }
 
 Match.init({
@@ -26,9 +25,8 @@ Match.init({
   homeTeamGoals: DataTypes.INTEGER,
   awayTeam: DataTypes.INTEGER,
   awayTeamGoals: DataTypes.INTEGER,
-  inProgress: DataTypes.INTEGER,
+  inProgress: DataTypes.BOOLEAN,
 }, {
-  // ... Outras configs
   underscored: true,
   sequelize: db,
   modelName: 'matchs',
