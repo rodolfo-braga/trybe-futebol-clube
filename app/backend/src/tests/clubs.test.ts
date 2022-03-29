@@ -50,8 +50,6 @@ describe('Testando a rota /clubs', () => {
     });
 
     it('cada item da lista possui os atributos "id" e "clubName"', () => {
-      console.log();
-      
       expect(chaiHttpResponse.body[0]).to.have.keys(['id', 'clubName']);
     });
 
