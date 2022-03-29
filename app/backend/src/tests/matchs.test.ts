@@ -75,4 +75,39 @@ describe('Testando a rota /matchs', () => {
       expect(chaiHttpResponse).to.have.status(200);
     });
   });
+
+  describe('Ao receber uma requisição do tipo GET com a query "inProgress=true"', () => {
+    let chaiHttpResponse: Response;
+
+    before(async () => {
+      sinon
+        .stub(Match, "findAll")
+        .resolves(mockedResponseFilteredTrue as unknown as MatchResponse[]);
+
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/matchs')
+        .query({ inProgress: true })
+    });
+
+    after(()=>{
+      (Match.findAll as sinon.SinonStub).restore();
+    });
+
+    it('deve retornar uma lista de partidas', () => {
+      expect(chaiHttpResponse.body).to.be.an('array');
+    });
+
+    it('cada partida possui os atributos "id", "homeTeam", "homeTeamGoals", "awayTeam", "awayTeamGoals", "inProgress", "homeClub" e "awayClub"', () => {      
+      expect(chaiHttpResponse.body[0]).to.have.keys(['id', 'homeTeam', 'homeTeamGoals', 'awayTeam', 'awayTeamGoals', 'inProgress', 'homeClub', 'awayClub']);
+    });
+
+    it('o atributo inProgress possui o valor "true"', () => {
+      expect(chaiHttpResponse.body[0].inProgress).to.be.true;
+    });
+
+    it('a resposta deve ter o status 200', () => {
+      expect(chaiHttpResponse).to.have.status(200);
+    });
+  });
 });
