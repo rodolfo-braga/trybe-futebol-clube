@@ -1,5 +1,6 @@
 import * as express from 'express';
 import errorHandler from './middlewares/error';
+import clubsRoute from './routes/clubs.route';
 import loginRoute from './routes/login.route';
 
 class App {
@@ -23,6 +24,7 @@ class App {
     this.app.use(accessControl);
     this.app.use(express.json());
     this.app.use('/login', loginRoute);
+    this.app.use('/clubs', clubsRoute);
     this.app.use(errorHandler);
   }
 
