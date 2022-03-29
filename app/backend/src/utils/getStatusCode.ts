@@ -9,6 +9,9 @@ const getStatusCode = (message: string) => {
     case ErrorMessage.EMPTY_FIELDS:
       return StatusCode.UNAUTHORIZED;
 
+    case ErrorMessage.CLUB_NOT_FOUND:
+      return StatusCode.NOT_FOUND;
+
     default:
       break;
   }
