@@ -59,4 +59,34 @@ describe('Testando a rota /clubs', () => {
       expect(chaiHttpResponse).to.have.status(200);
     });
   });
+
+  describe('Ao receber uma requisição do tipo GET com um param "id"', () => {
+    let chaiHttpResponse: Response;
+
+    before(async () => {
+      sinon
+        .stub(Club, "findByPk")
+        .resolves(mockedClub as Club);
+
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/clubs/1')
+    });
+
+    after(()=>{
+      (Club.findByPk as sinon.SinonStub).restore();
+    });
+
+    it('deve retornar um objeto', () => {
+      expect(chaiHttpResponse.body).to.be.an('object');
+    });
+
+    it('o objeto possui os atributos "id" e "clubName"', () => {
+      expect(chaiHttpResponse.body).to.have.keys(['id', 'clubName']);
+    });
+
+    it('a resposta deve ter o status 200', () => {
+      expect(chaiHttpResponse).to.have.status(200);
+    });
+  });
 });
