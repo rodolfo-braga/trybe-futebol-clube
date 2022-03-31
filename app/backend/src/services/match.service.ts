@@ -1,3 +1,4 @@
+import ErrorMessage from '../enums/ErrorMessage';
 import Club from '../database/models/Club';
 import Match from '../database/models/Match';
 import { MatchResponse } from '../interfaces/Match';
@@ -22,5 +23,17 @@ export default class MatchService {
       ],
     });
     return matches as MatchResponse[];
+  }
+
+  static async validateTeams(homeTeam: number, awayTeam: number): Promise<void> {
+    if (homeTeam === awayTeam) {
+      throw new Error(ErrorMessage.EQUAL_TEAMS);
+    }
+
+    const homeTeamExists = await Club.findOne({ where: { id: homeTeam } });
+    const awayTeamExists = await Club.findOne({ where: { id: awayTeam } });
+    if (!homeTeamExists || !awayTeamExists) {
+      throw new Error(ErrorMessage.TEAM_NOT_FOUND);
+    }
   }
 }
