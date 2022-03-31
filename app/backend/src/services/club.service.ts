@@ -9,7 +9,7 @@ export default class ClubService {
 
   static async getClubById(id: string): Promise<Club> {
     const club = await Club.findByPk(id);
-    if (!club) throw new Error(ErrorMessage.CLUB_NOT_FOUND);
+    if (!club) throw new Error(ErrorMessage.TEAM_NOT_FOUND);
     return club;
   }
 }
