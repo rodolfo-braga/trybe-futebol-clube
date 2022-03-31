@@ -21,4 +21,12 @@ export default class MatchController {
   static async finishMatch(id: number): Promise<void> {
     await MatchService.finishMatch(id);
   }
+
+  static async updateMatch(
+    id: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise<void> {
+    await MatchService.updateMatch(id, homeTeamGoals, awayTeamGoals);
+  }
 }
