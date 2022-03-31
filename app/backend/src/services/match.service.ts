@@ -1,7 +1,7 @@
 import ErrorMessage from '../enums/ErrorMessage';
 import Club from '../database/models/Club';
 import Match from '../database/models/Match';
-import { MatchResponse } from '../interfaces/Match';
+import { INewMatch, MatchResponse, NewMatch } from '../interfaces/Match';
 
 export default class MatchService {
   static async getMatches(): Promise<MatchResponse[]> {
@@ -35,5 +35,10 @@ export default class MatchService {
     if (!homeTeamExists || !awayTeamExists) {
       throw new Error(ErrorMessage.TEAM_NOT_FOUND);
     }
+  }
+
+  static async createMatch(newMatch: NewMatch): Promise<INewMatch> {
+    const match = await Match.create(newMatch);
+    return match as INewMatch;
   }
 }
