@@ -30,4 +30,14 @@ matchsRoute.post(
   },
 );
 
+matchsRoute.patch('/:id/finish', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await MatchController.finishMatch(Number(id));
+    return res.status(StatusCode.OK).json({ message: 'Match finished' });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default matchsRoute;
