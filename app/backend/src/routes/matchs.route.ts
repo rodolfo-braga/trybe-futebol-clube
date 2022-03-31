@@ -40,4 +40,15 @@ matchsRoute.patch('/:id/finish', async (req, res, next) => {
   }
 });
 
+matchsRoute.patch('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    await MatchController.updateMatch(Number(id), homeTeamGoals, awayTeamGoals);
+    return res.status(StatusCode.OK).json({ message: 'Match updated' });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default matchsRoute;
