@@ -41,4 +41,11 @@ export default class MatchService {
     const match = await Match.create(newMatch);
     return match as INewMatch;
   }
+
+  static async finishMatch(id: number): Promise<void> {
+    await Match.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+  }
 }
