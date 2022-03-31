@@ -48,4 +48,15 @@ export default class MatchService {
       { where: { id } },
     );
   }
+
+  static async updateMatch(
+    id: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise<void> {
+    await Match.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } },
+    );
+  }
 }
