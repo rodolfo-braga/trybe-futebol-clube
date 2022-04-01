@@ -1,7 +1,7 @@
 import ErrorMessage from '../enums/ErrorMessage';
 import Club from '../database/models/Club';
 import Match from '../database/models/Match';
-import { INewMatch, MatchResponse, NewMatch } from '../interfaces/Match';
+import { MatchResponse, NewMatch } from '../interfaces/Match';
 
 export default class MatchService {
   static async getMatches(): Promise<MatchResponse[]> {
@@ -37,9 +37,9 @@ export default class MatchService {
     }
   }
 
-  static async createMatch(newMatch: NewMatch): Promise<INewMatch> {
+  static async createMatch(newMatch: NewMatch): Promise<Match> {
     const match = await Match.create(newMatch);
-    return match as INewMatch;
+    return match;
   }
 
   static async finishMatch(id: number): Promise<void> {

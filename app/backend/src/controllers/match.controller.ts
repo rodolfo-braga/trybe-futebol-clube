@@ -1,5 +1,6 @@
 import MatchService from '../services/match.service';
-import { INewMatch, MatchResponse, NewMatch } from '../interfaces/Match';
+import { MatchResponse, NewMatch } from '../interfaces/Match';
+import Match from '../database/models/Match';
 
 export default class MatchController {
   static async getMatches(): Promise<MatchResponse[]> {
@@ -12,7 +13,7 @@ export default class MatchController {
     return matches;
   }
 
-  static async createMatch(newMatch: NewMatch): Promise<INewMatch> {
+  static async createMatch(newMatch: NewMatch): Promise<Match> {
     await MatchService.validateTeams(newMatch.homeTeam, newMatch.awayTeam);
     const match = await MatchService.createMatch(newMatch);
     return match;
