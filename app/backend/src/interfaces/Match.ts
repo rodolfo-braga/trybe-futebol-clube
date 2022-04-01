@@ -1,3 +1,4 @@
+import Club from '../database/models/Club';
 import Match from '../database/models/Match';
 
 export interface MatchResponse extends Match {
@@ -13,6 +14,6 @@ export interface NewMatch {
   inProgress: boolean;
 }
 
-export interface INewMatch extends NewMatch {
-  id: number;
+export interface MatchsAtHome extends Club {
+  matchsAtHome: Match[];
 }
